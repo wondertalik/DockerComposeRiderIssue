@@ -1,0 +1,16 @@
+services:
+  httpapi:
+    build:
+      context: .
+      dockerfile: ./src/DockerComposeRiderIssue/Dockerfile
+      args:
+        BUILD_CONFIGURATION: ${BUILD_CONFIGURATION}
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${DOTNET_ENVIRONMENT:-production}
+    networks:
+      - test_net
+    volumes:
+      - ./src:/code/src
