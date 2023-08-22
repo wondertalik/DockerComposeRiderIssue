@@ -7,7 +7,7 @@ It is an example that shows an issue explained [here](https://youtrack.jetbrains
 ## Install need tools and add .env.Development file
 
 - install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- clone repository from github
+- clone repository from gitHub
 - in root directory create .env.dev file with
 ```.env.dev
 DATABASE_DB=dbbase
@@ -33,4 +33,33 @@ docker compose -f docker-compose.yaml -f docker-compose.dev.yaml --env-file .env
 ### Stop and remove containers
 ```bash
 docker compose -f docker-compose.yaml -f docker-compose.dev.yaml --env-file .env.dev -p docker-compose-rider-issue down
+```
+
+
+# Migrations
+
+#### Connect to container
+
+```bash
+docker compose -f docker-compose.yaml -f docker-compose.dev.yaml --env-file .env.dev -p docker-compose-rider-issue exec dbmanage-migrations /bin/bash
+```
+
+#### Listing migrations
+
+```bash
+dotnet ef migrations list --startup-project ManageDatabaseApp --project DockerComposeRiderIssue.Infrastructure.Migrations
+```
+
+#### Add new migration
+
+```bash
+dotnet ef migrations add [migrationName] --startup-project ManageDatabaseApp --project DockerComposeRiderIssue.Infrastructure.Migrations
+```
+
+where [migrationName] is a name of migration
+
+#### Update database
+
+```bash
+dotnet ef database update --startup-project ManageDatabaseApp --project DockerComposeRiderIssue.Infrastructure.Migrations
 ```

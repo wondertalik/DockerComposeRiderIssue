@@ -14,3 +14,20 @@ services:
       - test_net
     volumes:
       - ./src:/code/src
+  dbmanage-migrations:
+    build:
+      context: .
+      dockerfile: ./tools/Dockerfile
+      args:
+        BUILD_CONFIGURATION: ${BUILD_CONFIGURATION}
+    networks:
+      - test_net
+    volumes:
+      - ./src:/code/src
+    working_dir: /code/src
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=${DATABASE_DB};Username=${DATABASE_USERNAME};Password=${DATABASE_PASSWORD}
+    depends_on:
+      - postgres
+    tty: true
+    stdin_open: true
